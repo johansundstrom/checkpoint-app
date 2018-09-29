@@ -1,1 +1,1 @@
-# checkpoint-app
+# Checkpoint-app
