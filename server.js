@@ -26,19 +26,18 @@ visa cycleend = cycleStart + cycleLength
 
 cycle = function() {}
 
-//Skapa konstruktor 
+//objektifiera 
 var cycle = new Object();
 cycle.CheckPoint = 5*60*60; // 5 hours per checkpoint
 cycle.CYCLE = 7*25*60*60;   // 7*25hour per cycle
-cycle.begin = 1389780000;
+cycle.start = 1389780000 * 1000; //add millisec.
 
 
 var now = new Date();
-var cyclenr = Math.floor((now - cycle.begin) / cycle.CYCLE); 
-var cyclenr = Math.floor((now - cycle.begin) / cycle.CYCLE); 
+var cyclenr = Math.floor((now - cycle.start) / cycle.CYCLE / 1000); 
 var cycleStart = Math.floor(now / (cycle.CYCLE * 1000)) * (cycle.CYCLE * 1000);
 var cycleEnd = cycleStart + cycle.CYCLE*1000;
-var checkpointNr = Math.floor((now - cycle.begin) * cycle.CYCLE);
+var checkpointNr = Math.floor((now - cycle.start) * cycle.CYCLE);
 var checkpointStart = Math.floor(now / (cycle.CheckPoint * 1000)) * (cycle.CheckPoint * 1000);
 var checkpointEnd = checkpointStart + cycle.CheckPoint * 1000;
 var formatRow = function(label,time) {
@@ -58,7 +57,7 @@ function unixTimeToString(label, UNIX_timestamp){
     var min = a.getMinutes();
     var sec = a.getSeconds();
     var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes(); var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds(); 
-    var time = label + ': ' + date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec + " - " + a;
+    var time = label + ': ' + date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
     return time;
 }
 
@@ -71,12 +70,11 @@ function myDateTime() {
 
 
 console.log(unixTimeToString("now", now));
-console.log(cycle.begin);
-console.log(unixTimeToString("begin", cycle.begin));
-console.log(unixTimeToString("epoch", 0));
-//console.log("cyclenr: " + cyclenr);
-//console.log(unixTimeToString("septicycle start", cycleStart));
-//console.log(unixTimeToString("septicycle end", cycleEnd));
-//console.log(unixTimeToString("cp start", checkpointStart));
-//console.log(unixTimeToString("cp end", checkpointEnd));
-//console.log("cp:" + checkpointNr);
+//console.log(unixTimeToString("start", cycle.start));
+
+console.log("current cycle: " + cyclenr);
+console.log(unixTimeToString("septicycle start", cycleStart));
+console.log(unixTimeToString("septicycle end", cycleEnd));
+console.log(unixTimeToString("cp start", checkpointStart));
+console.log(unixTimeToString("cp end", checkpointEnd));
+console.log("cp:" + checkpointNr);
