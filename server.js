@@ -11,35 +11,43 @@ Beräkna antal passerade
 
 
 visa tid nu = unixTimeToString("tid", myDateTime())
-visa cp#    = (nu - första cp) \ cpLength
-visa cp start =  (nu \ cpLength) * cpLength	
-visa cp end = cpStart + cpLength
 
 septi
-visa cycle# = (UtcUnixTime \ cycleLength)
-visa cyclestart = (nu  \ cycleLength) * cycleLength 
-visa cycleend = cycleStart + cycleLength
+visa septi# = (UtcUnixTime \ cycleLength)
+visa septistart = (nu \ cycleLength) * cycleLength 
+visa septiend = cycleStart + cycleLength
 
+checkpoint
+visa cp# = cpLenth \ (nu - cyclestart) * cpLength
+visa cp start =  (nu \ cpLength) * cpLength	
+visa cp start = (nu - septistart) * cpLenght
+visa cp end = cpStart + cpLength
 */
 
 
 
-cycle = function() {}
+cp = function() {}
 
 //objektifiera 
-var cycle = new Object();
-cycle.CheckPoint = 5*60*60; // 5 hours per checkpoint
-cycle.CYCLE = 7*25*60*60;   // 7*25hour per cycle
-cycle.start = 1389780000 * 1000; //add millisec.
+var cp = new Object();
+cp.CheckPoint = 5*60*60; // 5 hours per checkpoint
+cp.CYCLE = 7*25*60*60   // 7*25hour per cycle
+cp.start = 1389780000 * 1000; //add millisec.
 
 
 var now = new Date();
-var cyclenr = Math.floor((now - cycle.start) / cycle.CYCLE / 1000); 
-var cycleStart = Math.floor(now / (cycle.CYCLE * 1000)) * (cycle.CYCLE * 1000);
-var cycleEnd = cycleStart + cycle.CYCLE*1000;
-var checkpointNr = Math.floor((now - cycle.start) * cycle.CYCLE);
-var checkpointStart = Math.floor(now / (cycle.CheckPoint * 1000)) * (cycle.CheckPoint * 1000);
-var checkpointEnd = checkpointStart + cycle.CheckPoint * 1000;
+var now = new Date().getTime();
+//ok
+var cyclenr = Math.floor((now - cp.start) / cp.CYCLE / 1000); 
+var cycleStart = Math.floor(now / (cp.CYCLE * 1000)) * (cp.CYCLE * 1000);
+var cycleEnd = cycleStart + cp.CYCLE * 1000;
+
+var checkpointNr = Math.floor((now-cycleStart) / cp.CheckPoint /1000);
+//ok
+
+var checkpointStart = checkpointNr * (cp.CYCLE);
+var checkpointEnd = checkpointStart + cp.CheckPoint * 1000;
+
 var formatRow = function(label,time) {
     var timeStr = unixTimeToString(time,true);
     timeStr = timeStr.replace(/:00$/,''); //FIXME: doesn't remove seconds from AM/PM formatted dates
@@ -69,12 +77,16 @@ function myDateTime() {
 
 
 
-console.log(unixTimeToString("now", now));
+console.log(unixTimeToString("Time is", now));
 //console.log(unixTimeToString("start", cycle.start));
 
-console.log("current cycle: " + cyclenr);
-console.log(unixTimeToString("septicycle start", cycleStart));
-console.log(unixTimeToString("septicycle end", cycleEnd));
-console.log(unixTimeToString("cp start", checkpointStart));
-console.log(unixTimeToString("cp end", checkpointEnd));
-console.log("cp:" + checkpointNr);
+console.log("- SeptiCycle: " + cyclenr);
+console.log(unixTimeToString("- SeptiCycle start", cycleStart));
+console.log(unixTimeToString("- SeptiCycle end", cycleEnd));
+
+console.log("| Checkpoint nr: " + checkpointNr + " of 35");
+console.log(unixTimeToString("| Checkpoint start", checkpointStart));
+console.log(unixTimeToString("| Checkpoint end", checkpointEnd));
+
+
+
