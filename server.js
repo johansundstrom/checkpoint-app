@@ -32,21 +32,22 @@ cp = function() {}
 var cp = new Object();
 cp.CheckPoint = 5*60*60; // 5 hours per checkpoint
 cp.CYCLE = 7*25*60*60   // 7*25hour per cycle
-cp.start = 1389780000 * 1000; //add millisec.
+cp.begin = 1389780000 * 1000; //add millisec.
 
 
 var now = new Date();
 var now = new Date().getTime();
 //ok
-var cyclenr = Math.floor((now - cp.start) / cp.CYCLE / 1000); 
+var cyclenr = Math.floor((now - cp.begin) / cp.CYCLE / 1000); 
 var cycleStart = Math.floor(now / (cp.CYCLE * 1000)) * (cp.CYCLE * 1000);
 var cycleEnd = cycleStart + cp.CYCLE * 1000;
 
 var checkpointNr = Math.floor((now-cycleStart) / cp.CheckPoint /1000);
 //ok
 
-var checkpointStart = checkpointNr * (cp.CYCLE);
-var checkpointEnd = checkpointStart + cp.CheckPoint * 1000;
+
+var checkpointStart = cycleStart + (checkpointNr * cp.CheckPoint * 1000);
+var checkpointEnd = cycleStart + (checkpointNr * cp.CheckPoint * 1000) + cp.CheckPoint * 1000;
 
 var formatRow = function(label,time) {
     var timeStr = unixTimeToString(time,true);
