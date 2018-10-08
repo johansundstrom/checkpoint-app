@@ -39,7 +39,7 @@ console.log(unixTimeToString("| Checkpoint end", cp.checkpointEnd));
 */
 var test = JSON.parse(cp.JSON);
 
-//console.log(test);
+console.log(test);
 
 function unixTimeToString(UNIX_timestamp){
     var a = new Date(UNIX_timestamp);
