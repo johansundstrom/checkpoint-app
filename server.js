@@ -28,6 +28,7 @@ cp.JSON = JSON.stringify({
     }
 })
 
+/*
 console.log(unixTimeToString("Time is", cp.now));
 console.log("- SeptiCycle: " + cp.septiCycleNr);
 console.log(unixTimeToString("- SeptiCycle start", cp.septiCycleStart));
@@ -35,10 +36,10 @@ console.log(unixTimeToString("- SeptiCycle end", cp.septiCycleEnd));
 console.log("| Checkpoint nr: " + cp.checkpointNr + " of 35");
 console.log(unixTimeToString("| Checkpoint start", cp.checkpointStart));
 console.log(unixTimeToString("| Checkpoint end", cp.checkpointEnd));
-
+*/
 var test = JSON.parse(cp.JSON);
 
-console.log(test);
+//console.log(test);
 
 function unixTimeToString(UNIX_timestamp){
     var a = new Date(UNIX_timestamp);
