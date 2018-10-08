@@ -15,13 +15,17 @@ cp.checkpointStart = cp.septiCycleStart + (cp.checkpointNr * cp.checkPoint * 100
 cp.checkpointEnd = cp.septiCycleStart + (cp.checkpointNr * cp.checkPoint * 1000) + cp.checkPoint * 1000;
 
 cp.JSON = JSON.stringify({
-    now: cp.now,
-    septiCycleNr: cp.septiCycleNr,
-    septiCycleStart: cp.septiCycleStart,
-    septiCycleEnd: cp.septiCycleEnd,
-    checkpointNr: cp.checkpointNr,
-    checkpointStart: cp.checkpointStart,
-    checkpointEnd: cp.checkpointEnd
+    now: unixTimeToString(cp.now),
+    septi: {
+        Nr: cp.septiCycleNr,
+        Start: unixTimeToString(cp.septiCycleStart),
+        End: unixTimeToString(cp.septiCycleEnd)
+    },
+    checkpoint: {
+        Nr: cp.checkpointNr,
+        Start: unixTimeToString(cp.checkpointStart),
+        End: unixTimeToString(cp.checkpointEnd)
+    }
 })
 
 console.log(unixTimeToString("Time is", cp.now));
@@ -36,7 +40,7 @@ var test = JSON.parse(cp.JSON);
 
 console.log(test);
 
-function unixTimeToString(label, UNIX_timestamp){
+function unixTimeToString(UNIX_timestamp){
     var a = new Date(UNIX_timestamp);
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
     var year = a.getFullYear();
@@ -46,6 +50,6 @@ function unixTimeToString(label, UNIX_timestamp){
     var min = a.getMinutes();
     var sec = a.getSeconds();
     var min = a.getMinutes() < 10 ? '0' + a.getMinutes() : a.getMinutes(); var sec = a.getSeconds() < 10 ? '0' + a.getSeconds() : a.getSeconds(); 
-    var time = label + ': ' + date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
+    var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec;
     return time;
 }
